@@ -1,2 +1,8 @@
-n=int
-n=10
+memory=[[0 for i in range(40)] for j in range(1000)]
+PC=[0 for i in range(12)]
+MAR=[0 for i in range(12)]
+IR=[0 for i in range(8)]
+IBR=[0 for i in range(20)]
+MQ=[0 for i in range(40)]
+AC=[0 for i in range(40)]
+MBR=[0 for i in range(40)]
