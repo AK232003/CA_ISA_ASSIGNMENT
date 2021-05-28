@@ -184,13 +184,10 @@ void program()
                 }
                 cout<<"JUMP TO RIGHT "<<pc<<"COMPLETED!!"<<endl;
                 break;
-                
-        
-                       
-                
-
-
         }
-
+        AC=0;
+        for(i=1;i<40;i++) {AC+=ac[i]*pow(2,39-i);}
+        if(AC>=0) cout<<AC<<endl;
+        else cout<<-AC<<endl;
 }
 
