@@ -90,20 +90,20 @@ void program()
             mar=pc;
             ir=0;
             for(i=0;i<40;i++) {mbr[i]=M[mar][i];}
-            for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,i));}
+            for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}
             if(ir!=0)
             {
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
                 mar=0;
-                for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,i));}
+                for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
             }
         
             else
             {
                 ir=0;
-                for(i=0;i<8;i++) {ir+=((mbr[20+i])*pow(2,i));}
+                for(i=0;i<8;i++) {ir+=((mbr[20+i])*pow(2,7-i));}
                 mar=0;
-                for(i=0;i<12;i+=) {mar+=((mbr[28+i])*pow(2,i));}
+                for(i=0;i<12;i+=) {mar+=((mbr[28+i])*pow(2,11-i));}
                 pc++;
                 Jump=1;
             }
@@ -111,9 +111,9 @@ void program()
         else
         {
             ir=0;
-            for(i=0;i<8;i++) {ir+=((ibr[i])*pow(2,i));}
+            for(i=0;i<8;i++) {ir+=((ibr[i])*pow(2,7-i));}
             mar=0;
-            for(i=0;i<12;i++) {mar+=((ibr[8+i])*pow(2,i));}
+            for(i=0;i<12;i++) {mar+=((ibr[8+i])*pow(2,11-i));}
             pc++;
         }
         //Execute phase
@@ -131,7 +131,23 @@ void program()
                 cout<<"LOAD_Negative_Mod COMPLETE"<<endl;
                 break;
             case ADD:
-
+                long long int MBR=0,AC=0;
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
+                for(i=0;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
+                AC=AC+MBR;
+                for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                cout<<"ADDITION COMPLETED!!"<<endl;
+                break;
+            case STOR:
+                for(i=0;i<40;i++) {mbr[i]=ac[i];M[mar][i]=mbr[i];}
+                cout<<"STORAGE DONE!!"<<endl;
+                break;
+            case SUB:
+                long long int MBR=0,AC=0;
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
+                for(i=0;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
+                AC=AC-MBR;
+                if(AC>=0) ac[0]=0;
                 
 
 
