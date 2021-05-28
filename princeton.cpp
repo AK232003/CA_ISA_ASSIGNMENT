@@ -125,8 +125,8 @@ void program()
                 for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mar[i];}
                 cout<<"LOAD COMPLETE"<<endl;
                 break;
-            case LOAD_Negative_Mod:
-                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mar[i];}
+            case JUMP_L:
+                
                 
                 
 
