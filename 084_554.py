@@ -1,61 +1,31 @@
 # Main Memory of a IAS Computer
+memory = [['0']*40]*20
 
-class MM():
-    def __init__(self):
-        self.memory = [['0']*40]*20
 
-    def getData(self, loc):
-        return self.memory[loc]
-
-    def setData(self, loc, data):
-        self.memory[loc] = data
-# Program Control Unit of a IAS Computer
-
-# Arithmatic Logic Unit of a IAS Computer
 
 # Accumulator
-class AC():
+AC_data = ['0']*40
+MBR_buffer=['0']*40
+IBR_data=['0']*20
+PC=0
+opcode = ['0']*8
+MAR_address=['0']*12
 
-    def __init__(self):
-        self.data = ['0']*40
-
-    def getData(self):
-        return self.data
-
-    def setData(self, data):
-        self.data = data
-
-# Arithmatic Logic Circuits
-class ALC():
-    def ADD(self, MBR, AC):
-        val = binToDec(MBR.getBuffer()) + binToDec(AC.getData())
+def ADD(a, b):
+        val = binToDec(a) + binToDec(b)
         newVal = decToBin(val)
-        AC.setData(padding(newVal, 40))
+        b=(padding(newVal, 40))
 
-    def SUB(self, MBR, AC):
-        val = binToDec(MBR.getBuffer()) - binToDec(AC.getData())
+def SUB(a, b):
+        val = binToDec(a) - binToDec(b)
         newVal = decToBin(val)
-        AC.setData(padding(newVal, 40))
+        b=(padding(newVal, 40))
 
-    def LOAD (self, MBR,AC):
-        AC.setData(MBR.getBuffer())
+def LOAD (a,b):
+        b=a
 
-    def STORE (self, MBR, AC):
-        MBR.setBuffer(AC.getData())
-
-
-# Memory Buffer Register
-class MBR():
-
-    def __init__(self):
-        self.buffer = ['0']*40
-
-    def getBuffer(self):
-        return self.buffer
-
-    def setBuffer(self, buffer):
-        self.buffer = buffer
-
+def STORE (a,b):
+    a=b
 
 # FUNCTIONS
 def decToBin(n): #function for converting decimal to binary
@@ -82,132 +52,70 @@ def padding(list, n): #funtion for adding padding to the converted binary list
         list.insert(0,'0')
     return list
 
-# Instruction Buffer Register
-class IBR():
-    def __init__(self):
-        self.data = ['0']*20
-
-    def getData(self):
-        return self.data
-
-    def setInstruction (self, data):
-        self.data = data[20:40]
-
-    def reset(self):
-        self.data = ["0"]*20
-
-
-# Program Counter
-class PC():
-
-    def __init__(self):
-        self.address = 0
-
-    def incrementPC(self):
-        self.address += 1
-
-
-# Instruction Register
-class IR():
-    def __init__(self):
-        self.opcode = ['0']*8
-
-    def getOpcode(self):
-        return self.opcode
-
-    def setOpcode(self, data):
-        self.opcode = data[0:8]
-
-
-# Memory Address Register
-class MAR():
-    def __init__(self):
-        self.address = ['0']*12
-
-    def getAddress(self):
-        return self.address
-
-    def setAddress(self, data):
-        self.address = data[8:20]
-    
 def Fetch(): # fetch function
-    if (binToDec(IBR.getData())): # condition for right instruction
+    global IBR_data,PC,opcode,MAR_address,MBR_buffer
+    if (binToDec(IBR_data)): # condition for right instruction
         print("Fetching the right command")
-        IR.setOpcode(IBR.getData()) # MBR --> IR
-        MAR.setAddress(IBR.getData()) # MBR --> MAR
-        IBR.reset()
-        PC.incrementPC()
+        opcode=(IBR_data[0:8]) # MBR --> IR
+        MAR_address=(IBR_data[8:20]) # MBR --> MAR
+        IBR_data=['0']*20
+        PC+=1
 
     else: # fetches left instruction
         print("Fetching the left command")
-        MAR.setAddress(padding(decToBin(PC.address), 12)) #add padding # PC --> MAR
+        MAR_address=(padding(decToBin(PC), 12)[8:20]) #add padding # PC --> MAR
         #print(MAR.getAddress())
-        MBR.setBuffer(MM.getData(binToDec(MAR.getAddress()))) # MM --> MBR
+        MBR_buffer=(memory[(binToDec(MAR_address))]) # MM --> MBR
         #print(MBR.getBuffer())
-        IBR.setInstruction(MBR.getBuffer()) # MBR --> IBR
+        IBR_data=(MBR_buffer[20:40]) # MBR --> IBR
         #print(IBR.getData())
-        IR.setOpcode(MBR.getBuffer()) # MBR --> IR
+        opcode=(MBR_buffer[0:8]) # MBR --> IR
         #print(IR.getOpcode())
-        MAR.setAddress(MBR.getBuffer()) # MBR --> MAR
+        MAR_address=(MBR_buffer[8:20]) # MBR --> MAR
         #print(MAR.getAddress())
 
 
 def Decode(): # decode function
-    opcode = binToDec(IR.getOpcode())
+    global opcode
+    opcode = binToDec(opcode)
     print("Decoding the fetched command")
     return opcode
 
 
 def Execute(opcode): # Execute function
     # executing load
+    global MBR_buffer,MAR_address,PC,IBR_data
     if opcode == 1:
-        MBR.setBuffer(MM.getData(binToDec(MAR.getAddress())))
-        ALC.LOAD(MBR, AC)
+        MBR_buffer=(memory[(binToDec(MAR_address))])
+        LOAD(MBR_buffer, AC_data)
 
     # executing add
     elif opcode == 5:
-        MBR.setBuffer(MM.getData(binToDec(MAR.getAddress())))
-        ALC.ADD(MBR, AC)
+        MBR_buffer=(memory[(binToDec(MAR_address))])
+        ADD(MBR_buffer, AC_data)
 
     # executing store
     elif opcode == 33:
-        ALC.STORE(MBR, AC) # AC --> MBR
-        MM.setData(binToDec(MAR.getAddress()), MBR.getBuffer())
+        STORE(MBR_buffer, AC_data) # AC --> MBR
+        memory[binToDec(MAR_address)]=MBR_buffer
 
     # executing subtract
     elif opcode == 6:
-        MBR.setBuffer(MM.getData(binToDec(MAR.getAddress())))
-        ALC.SUB(MBR, AC)
+        MBR_buffer(memory[(binToDec(MAR_address))])
+        SUB(MBR_buffer, AC_data)
 
     # executing left jump
     elif opcode == 13:
-        PC.address = binToDec(MAR.getAddress())
-        IBR.reset()
+        PC = binToDec(MAR_address)
+        IBR_data=['0']*20
 
     # executing right jump
     elif opcode == 14:
-        PC.address = binToDec(MAR.getAddress())
-        IBR.reset()
+        PC = binToDec(MAR_address)
+        IBR_data=['0']*20
         Fetch()
     print("Executing the fetched command"),
     print(opcode)
-
-# intialising the parts
-
-# main memory
-MM = MM()
-
-# PCU
-IBR = IBR()
-IR = IR()
-MAR = MAR()
-PC = PC()
-
-# ALU
-AC = AC()
-ALC = ALC()
-MBR = MBR()
-
 
 # First set of input
 # 0  LOAD (2) ADD(3)
@@ -246,25 +154,25 @@ MBR = MBR()
 # 1 : DATA(10)
 # 2 : ADD M(3) STOR M(3)
 # 3 : DATA(5)
-data0 =  ['0','0','0','0','0','0','0','1',   '0','0','0','0','0','0','0','0','0','0','0','1',
-          '0','0','0','0','1','1','1','0',   '0','0','0','0','0','0','0','0','0','0','1','0']
+memory[0]=  ['0','0','0','0','0','0','0','1',   '0','0','0','0','0','0','0','0','0','0','0','1',
+             '0','0','0','0','1','1','1','0',   '0','0','0','0','0','0','0','0','0','0','1','0']
 
-MM.setData(0, data0)
-
-data1 =  ['0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','0','0','0','0',
-          '0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','1','0','1','0']
-
-MM.setData(1, data1)
-
-data2 =  ['0','0','0','0','0','1','0','1',   '0','0','0','0','0','0','0','0','0','0','1','1',
-          '0','0','1','0','0','0','0','1',   '0','0','0','0','0','0','0','0','0','0','1','1']
-
-MM.setData(2,data2)
-
-data3 = ['0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','0','0','0','0',
-         '0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','0','1','0','1']
-
-MM.setData(3, data3)
+#MM.setData(0, data0)
+#
+memory[1] =  ['0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','0','0','0','0',
+              '0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','1','0','1','0']
+#
+#MM.setData(1, data1)
+#
+memory[2] =  ['0','0','0','0','0','1','0','1',   '0','0','0','0','0','0','0','0','0','0','1','1',
+              '0','0','1','0','0','0','0','1',   '0','0','0','0','0','0','0','0','0','0','1','1']
+#
+#MM.setData(2,data2)
+#
+memory[3] = ['0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','0','0','0','0',
+             '0','0','0','0','0','0','0','0',   '0','0','0','0','0','0','0','0','0','1','0','1']
+#
+#MM.setData(3, data3)
 
 # main loop
 while(True):
