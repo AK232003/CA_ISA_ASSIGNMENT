@@ -6,8 +6,8 @@ INSTRUCTION SPACE
 100 LOAD M(0)               // ac = a
     SUB M(1)                // ac = ac - b
 101 STOR M(3)               // M(3) = ac = a - b
-    JUMP M(102, 0:19)       // 
-102 JUMP + M(104,20:39)     // if(ac == 0)
+    LOAD -|M(3)|            // ac = -|a - b|  <=0
+102 JUMP + M(104,20:39)     // if(ac >= 0)  => ac==0
     LOAD M(0)               // ac = a
 103 ADD M(1)                // ac = ac + b
     STOR M(2)               // M(2) = ac = a + b
@@ -20,9 +20,9 @@ INSTRUCTION SPACE
 */
 
 #define LOAD 1
+#define LOAD_Negative_Mod 4
 #define ADD 5
 #define SUB 6
-#define JUMP_L 13
 #define JUMP_TO_RIGHT 16
 #define STOR 33
 #define EMPTY 0
@@ -51,9 +51,9 @@ void memory_creation()
     // 100 LOAD M(0)  SUB M(1)            
     M[100][] = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-    // 101 STOR M(3)  JUMP M(102, 0:19)
+    // 101 STOR M(3)  LOAD_Negative_Mod M(3)
     M[101][] = {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-                0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0};
+                0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
     // 102 JUMP_TO_RIGHT M(104)  LOAD M(0)
     M[102][] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 
                 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -96,7 +96,6 @@ void program()
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
                 mar=0;
                 for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,i));}
-                //Jump=1;
             }
         
             else
@@ -114,7 +113,7 @@ void program()
             ir=0;
             for(i=0;i<8;i++) {ir+=((ibr[i])*pow(2,i));}
             mar=0;
-            for(i=0;i<12;i+=) {mar+=((ibr[8+i])*pow(2,i));}
+            for(i=0;i<12;i++) {mar+=((ibr[8+i])*pow(2,i));}
             pc++;
         }
         //Execute phase
@@ -122,12 +121,17 @@ void program()
         switch(ir)
         {
             case LOAD:
-                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mar[i];}
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
                 cout<<"LOAD COMPLETE"<<endl;
                 break;
-            case JUMP_L:
-                
-                
+            case LOAD_Negative_Mod:
+                if(M[mar][0] == 0)
+                    {mbr[0] = 1; ac[0] = 1;}
+                for(i=1;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
+                cout<<"LOAD_Negative_Mod COMPLETE"<<endl;
+                break;
+            case ADD:
+
                 
 
 
