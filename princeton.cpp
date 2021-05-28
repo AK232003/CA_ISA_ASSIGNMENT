@@ -171,17 +171,17 @@ void program()
                 break;
             case JUMP_TO_RIGHT:
                 if(ac[0]==0)
-                   {
-                       pc=mar;
-                       mar=pc;
-                       ir=0;
-                       for(i=0;i<40;i++) {mbr[i]=M[mar][i];}
-                       for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}
-                       for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
-                       mar=0;
-                       for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
-                       Jump=0;
-                   }
+                {
+                    pc=mar;
+                    mar=pc;
+                    ir=0;
+                    for(i=0;i<40;i++) {mbr[i]=M[mar][i];}
+                    for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}
+                    for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
+                    mar=0;
+                    for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
+                    Jump=0;
+                }
                 cout<<"JUMP TO RIGHT "<<pc<<"COMPLETED!!"<<endl;
                 break;
                 
