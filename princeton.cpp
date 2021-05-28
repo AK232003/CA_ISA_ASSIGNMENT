@@ -97,7 +97,6 @@ void program()
                 mar=0;
                 for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
             }
-        
             else
             {
                 ir=0;
@@ -133,9 +132,16 @@ void program()
             case ADD:
                 long long int MBR=0,AC=0;
                 for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
-                for(i=0;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
+                for(i=1;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
+                if(mbr[0]!=0) MBR=-MBR; 
+                if(ac[0]!=0) AC=-AC;
                 AC=AC+MBR;
-                for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                if(AC>=0)
+                 for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                else
+                    AC=-AC;
+                    for(i=1;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                    ac[0]=1;
                 cout<<"ADDITION COMPLETED!!"<<endl;
                 break;
             case STOR:
@@ -144,10 +150,17 @@ void program()
                 break;
             case SUB:
                 long long int MBR=0,AC=0;
-                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
-                for(i=0;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
+                for(i=1;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
+                for(i=1;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
                 AC=AC-MBR;
-                if(AC>=0) ac[0]=0;
+                if(AC>=0)
+                 for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                else
+                    AC=-AC;
+                    for(i=1;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                    ac[0]=1;
+                cout<<"SUBTRACTION COMPLETED!!"<<endl;
+                break;
                 
 
 
