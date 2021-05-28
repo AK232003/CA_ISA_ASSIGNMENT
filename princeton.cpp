@@ -45,6 +45,9 @@ void memory_creation()
     //stores the result to compute a==b
     M[3][] =   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    //indicate sign.
+    //M[4][]=    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      //          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     // 100 LOAD M(0)  SUB M(1)            
     M[100][] = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
@@ -115,9 +118,16 @@ void program()
             pc++;
         }
         //Execute phase
+        cout<<"fetch cycle completed!!"<<endl<<"decode cycle completed!!"<<endl;
         switch(ir)
         {
             case LOAD:
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mar[i];}
+                cout<<"LOAD COMPLETE"<<endl;
+                break;
+            case LOAD_Negative_Mod:
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mar[i];}
+                
                 
 
 
