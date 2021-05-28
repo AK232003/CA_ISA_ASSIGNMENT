@@ -111,7 +111,7 @@ void program()
 {
     long long int ir=0,i,temp;
     int mbr[40], ac[40], ibr[20];
-    long long int mar;
+    long long int mar = 0;
     long long int pc = 4, program_on = 1, Jump = 0;
     temp=pc;
     while(program_on)
@@ -223,16 +223,14 @@ void program()
                 cout<<"255!!"<<endl;
                 break;
         }
-        long long unsigned int AC=0;
+        /*long long unsigned int AC=0;
         for(i=1;i<40;i++) {AC+=ac[i]*pow(2,39-i);}
         if(AC>=0) 
             cout<<AC<<endl;
         else 
-            cout<<"-" << AC <<endl;
+            cout<<"-" << AC <<endl;*/
         Jump=!Jump;
     }
-        
-    
 }
 
 int main()
