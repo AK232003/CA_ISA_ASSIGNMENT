@@ -95,7 +95,7 @@ void program()
             {
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
                 mar=0;
-                for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
+                for(i=0;i<12;i++) {mar+=((mbr[8+i])*pow(2,11-i));}
             }
             else
             {
@@ -179,15 +179,23 @@ void program()
                     for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}
                     for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
                     mar=0;
-                    for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
+                    for(i=0;i<12;i++) {mar+=((mbr[8+i])*pow(2,11-i));}
                     Jump=0;
                 }
                 cout<<"JUMP TO RIGHT "<<pc<<"COMPLETED!!"<<endl;
                 break;
         }
-        AC=0;
+        long long int AC=0;
         for(i=1;i<40;i++) {AC+=ac[i]*pow(2,39-i);}
-        if(AC>=0) cout<<AC<<endl;
-        else cout<<-AC<<endl;
+        if(AC>=0) 
+            cout<<AC<<endl;
+        else 
+            cout<<"-" << AC <<endl;
+    }
 }
 
+int main()
+{
+    memory_creation();
+    program();
+}
