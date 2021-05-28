@@ -130,7 +130,7 @@ void program()
                 cout<<"LOAD_Negative_Mod COMPLETE"<<endl;
                 break;
             case ADD:
-                long long int MBR=0,AC=0;
+                long long unsigned int MBR=0,AC=0;
                 for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
                 for(i=1;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
                 if(mbr[0]!=0) MBR=-MBR; 
@@ -151,7 +151,7 @@ void program()
                 cout<<"STORAGE DONE!!"<<endl;
                 break;
             case SUB:
-                long long int MBR=0,AC=0;
+                /*long long unsigned int */ MBR=0,AC=0;
                 for(i=1;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
                 for(i=1;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
                 AC=AC-MBR;
@@ -185,7 +185,7 @@ void program()
                 cout<<"JUMP TO RIGHT "<<pc<<"COMPLETED!!"<<endl;
                 break;
         }
-        long long int AC=0;
+        long long unsigned int AC=0;
         for(i=1;i<40;i++) {AC+=ac[i]*pow(2,39-i);}
         if(AC>=0) 
             cout<<AC<<endl;
