@@ -74,7 +74,8 @@ void memory_creation()
 void program()
 {
     int ir,i,temp;
-    int mar[12], mbr[40], ac[40], ibr[20];
+    int mbr[40], ac[40], ibr[20];
+    long long int mar;
     int pc = 100, program_on = 1, Jump = 0;
     temp=pc;
     while(program_on)
@@ -82,7 +83,7 @@ void program()
         //fetch cycle
         if(!Jump)
         {
-               for(i=0;i<12;i++) {mar[i]=temp%2;temp=temp/2;} 
+               //for(i=0;i<12;i++) {mar[i]=temp%2;temp=temp/2;} 
         }
 
 
