@@ -73,7 +73,7 @@ void memory_creation()
 
 void program()
 {
-    int ir,i,temp;
+    int ir=0,i,temp;
     int mbr[40], ac[40], ibr[20];
     long long int mar;
     int pc = 100, program_on = 1, Jump = 0;
@@ -83,18 +83,33 @@ void program()
         //fetch cycle
         if(!Jump)
         {
-               //for(i=0;i<12;i++) {mar[i]=temp%2;temp=temp/2;} 
+            //for(i=0;i<12;i++) {mar[i]=temp%2;temp=temp/2;} 
+            mar=pc;
+            for(i=0;i<40;i++) {mbr[i]=M[mar][i];}
+            for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,i));}
+            if(ir!=0)
+            {
+                for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
+                mar=0;
+                for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,i));}
+                Jump=1;
+            }
+        
+            else
+            {
+                for(i=0;i<8;i++) {ir+=((mbr[20+i])*pow(2,i));}
+                mar=0;
+                for(i=0;i<12;i+=) {mar+=((mbr[28+i])*pow(2,i));}
+                pc++;
+            }
         }
-
-
-
-
-
-
-
-
-
-
+        else
+        {
+            for(i=0;i<8;i++) {ir+=((ibr[i])*pow(2,i));}
+            mar=0;
+            for(i=0;i<12;i+=) {mar+=((ibr[8+i])*pow(2,i));}
+            pc++;
+        }
         //Execute phase
         switch(ir)
         {
