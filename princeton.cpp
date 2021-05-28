@@ -85,6 +85,7 @@ void program()
         {
             //for(i=0;i<12;i++) {mar[i]=temp%2;temp=temp/2;} 
             mar=pc;
+            ir=0;
             for(i=0;i<40;i++) {mbr[i]=M[mar][i];}
             for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,i));}
             if(ir!=0)
@@ -106,6 +107,7 @@ void program()
         }
         else
         {
+            ir=0;
             for(i=0;i<8;i++) {ir+=((ibr[i])*pow(2,i));}
             mar=0;
             for(i=0;i<12;i+=) {mar+=((ibr[8+i])*pow(2,i));}
@@ -115,6 +117,7 @@ void program()
         switch(ir)
         {
             case LOAD:
+                
 
 
 
