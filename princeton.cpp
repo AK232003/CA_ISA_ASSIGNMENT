@@ -92,7 +92,7 @@ void program()
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
                 mar=0;
                 for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,i));}
-                Jump=1;
+                //Jump=1;
             }
         
             else
@@ -101,6 +101,7 @@ void program()
                 mar=0;
                 for(i=0;i<12;i+=) {mar+=((mbr[28+i])*pow(2,i));}
                 pc++;
+                Jump=1;
             }
         }
         else
