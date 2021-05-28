@@ -98,6 +98,7 @@ void program()
         
             else
             {
+                ir=0;
                 for(i=0;i<8;i++) {ir+=((mbr[20+i])*pow(2,i));}
                 mar=0;
                 for(i=0;i<12;i+=) {mar+=((mbr[28+i])*pow(2,i));}
