@@ -69,11 +69,39 @@ void memory_creation()
     cout << "Memory Creation ---> Success" << endl;
 }
 
-typedef long long unsigned int ll
+//typedef long long unsigned int ll
 
 void program()
 {
-    ll pc, mar, 
+    int ir;
+    int mar[12], mbr[40], ac[40], ibr[20];
+    int pc = 100, program_on = 1, Jump = 0;
+
+    while(program_on)
+    {
+        //fetch cycle
+        if(!Jump)
+        {
+            
+        }
+
+
+
+
+
+
+
+
+
+
+        //Execute phase
+        switch(ir)
+        {
+            case LOAD:
+
+
+
+        }
 
 }
 
