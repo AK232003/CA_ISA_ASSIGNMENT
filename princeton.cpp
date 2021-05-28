@@ -102,7 +102,7 @@ void program()
                 ir=0;
                 for(i=0;i<8;i++) {ir+=((mbr[20+i])*pow(2,7-i));}
                 mar=0;
-                for(i=0;i<12;i+=) {mar+=((mbr[28+i])*pow(2,11-i));}
+                for(i=0;i<12;i++) {mar+=((mbr[28+i])*pow(2,11-i));}
                 pc++;
                 Jump=1;
             }
@@ -139,9 +139,11 @@ void program()
                 if(AC>=0)
                  for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
                 else
+                {
                     AC=-AC;
                     for(i=1;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
                     ac[0]=1;
+                }
                 cout<<"ADDITION COMPLETED!!"<<endl;
                 break;
             case STOR:
@@ -156,9 +158,11 @@ void program()
                 if(AC>=0)
                  for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
                 else
+                {
                     AC=-AC;
                     for(i=1;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
                     ac[0]=1;
+                }
                 cout<<"SUBTRACTION COMPLETED!!"<<endl;
                 break;
                 
