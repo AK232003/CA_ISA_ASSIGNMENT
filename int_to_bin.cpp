@@ -129,6 +129,7 @@ void program()
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
                 mar=0;
                 for(i=0;i<12;i++) {mar+=((mbr[8+i])*pow(2,11-i));}
+                pc++;
             }
             else
             {
@@ -163,7 +164,7 @@ void program()
                 cout<<"4 COMPLETE"<<endl;
                 break;
             case 5:
-                long long int MBR,AC;
+                long long unsigned int MBR,AC;
                 AC=0;
                 MBR=0;
                 for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
@@ -180,10 +181,6 @@ void program()
                     ac[0]=1;
                 }
                 cout<<"ADDITION COMPLETED!!"<<endl;
-                break;
-            case 33:
-                for(i=0;i<40;i++) {mbr[i]=ac[i];M[mar][i]=mbr[i];}
-                cout<<"STORAGE DONE!!"<<endl;
                 break;
             case 6:
                 /*long long unsigned int */ MBR=0,AC=0;
@@ -216,18 +213,25 @@ void program()
                 }
                 cout<<"JUMP TO RIGHT "<<pc<<"COMPLETED!!"<<endl;
                 break;
+            case 33:
+                for(i=0;i<40;i++) {mbr[i]=ac[i];M[mar][i]=mbr[i];}
+                cout<<"STORAGE DONE!!"<<endl;
+                break;
+
             case 255:
                 program_on=0;
                 cout<<"255!!"<<endl;
                 break;
         }
+        Jump=!Jump;
+    }
         long long unsigned int AC=0;
         for(i=1;i<40;i++) {AC+=ac[i]*pow(2,39-i);}
         if(AC>=0) 
             cout<<AC<<endl;
         else 
             cout<<"-" << AC <<endl;
-    }
+    
 }
 
 int main()
