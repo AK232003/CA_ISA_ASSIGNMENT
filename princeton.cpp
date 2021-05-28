@@ -20,9 +20,9 @@ INSTRUCTION SPACE
 */
 
 #define LOAD 1
-#define LOAD_Negative_Mod 4
 #define ADD 5
 #define SUB 6
+#define JUMP_L 13
 #define JUMP_TO_RIGHT 16
 #define STOR 33
 #define EMPTY 0
