@@ -76,10 +76,10 @@ void memory_creation()
 
 void program()
 {
-    int ir=0,i,temp;
+    long long int ir=0,i,temp;
     int mbr[40], ac[40], ibr[20];
     long long int mar;
-    int pc = 100, program_on = 1, Jump = 0;
+    long long int pc = 100, program_on = 1, Jump = 0;
     temp=pc;
     while(program_on)
     {
@@ -165,8 +165,29 @@ void program()
                 }
                 cout<<"SUBTRACTION COMPLETED!!"<<endl;
                 break;
+            case HALT:
+                program_on=0;
+                cout<<"HALT!!"<<endl;
+                break;
+            case JUMP_TO_RIGHT:
+                if(ac[0]==0)
+                   {
+                       pc=mar;
+                       mar=pc;
+                       ir=0;
+                       for(i=0;i<40;i++) {mbr[i]=M[mar][i];}
+                       for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}
+                       for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}
+                       mar=0;
+                       for(i=0;i<12;i+=) {mar+=((mbr[8+i])*pow(2,11-i));}
+                       Jump=0;
+                   }
+                cout<<"JUMP TO RIGHT "<<pc<<"COMPLETED!!"<<endl;
+                break;
                 
-
+        
+                       
+                
 
 
         }
