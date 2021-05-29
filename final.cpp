@@ -1,23 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
-INSTRUCTION SPACE
-100 1 M(0)               // ac = a
-    6 M(1)                // ac = ac - b
-101 33 M(3)               // M(3) = ac = a - b
-    1 -|M(3)|            // ac = -|a - b|  <=0
-102 JUMP + M(104,20:39)     // if(ac >= 0)  => ac==0
-    1 M(0)               // ac = a
-103 5 M(1)                // ac = ac + b
-    33 M(2)               // M(2) = ac = a + b
-104 255                    // STOP
-    1 M(0)               // ac = a
-105 6 M(1)                // ac = ac - b
-    33 M(2)               // M(2) = ac = a - b
-106 ----
-    255                    // STOP
-*/
+/* "Creating Memory Space"
+0) - a Value
+M[0] =  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+
+1) - b Value
+M[1] =  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
+
+2) - c Value
+M[2] =  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+3) - Stores the result to compute a==b
+M[3] =  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+4) - LOAD M(0)  SUB M(1)            
+M[4] =  {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+
+5) - STOR M(3)  LOAD -|M(3)|
+M[5] =  {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
+         0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
+
+6) - JUMP + M(8, 20:39)  LOAD M(0)
+M[6] =  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+         0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+7) - ADD M(1)  STOR M(2)
+M[7] =  {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+         0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+
+8) - HALT  LOAD M(0)
+M[8] =  {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+9) - SUB M(1)  STOR M(2)
+M[9] =  {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+         0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+10) - ------  HALT
+M[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+         1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};*/
+
 //Memory of the IAS Computer.
 int M[1000][40] = 
 {
@@ -55,86 +82,29 @@ int M[1000][40] =
          1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
-void memory_creation()
+void int_to_bin(long long signed int a,long long signed int l)
 {
-    /*//Creating Memory Space
-    // a Value
-    M[0] =   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-    // b Value
-    M[1] =   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-    // c Value
-    M[2] =   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    //stores the result to compute a==b
-    M[3] =   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    // 100 1 M(0)  6 M(1)            
-    M[4] =   {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-    // 101 33 M(3)  4 M(3)
-    M[5] =   {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-                0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
-     102 16 M(8)  1 M(0)
-    M[6] =  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    // 103 5 M(1) 33 M(2)
-    M[7] = {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
-                0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
-    // 104 255  1 M(0)
-    M[8] =  {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    // 105 6 M(1)  33 M(2)
-    M[9] = {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
-                0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
-    // 106 0  255
-    M[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};*/
-    /*M[][40] = 
+    if(a<0) 
     {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-         0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-         0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-        {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
-         0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
-         0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-        {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-         0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-         0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-         1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-    cout << "Memory Creation ---> Success" << endl;*/
+        M[l][0]=1;
+        a=-a;
+    }
+    else M[l][0]=0;
+    for(long long signed i=0;i<39;i++) {M[l][39-i]=a%2;a=a/2;}
 }
-
-//typedef long long unsigned int ll
 
 void program()
 {
-    long long int ir=0,i,temp;//ir-instruction register(8 bits)
+    long long int ir=0,i;//ir-instruction register(8 bits)
     int mbr[40], ac[40], ibr[20];//mbr-memory buffer register(40 bits),ac-accumulator(40 bits),ibr-instruction buffer register(20 bits)
     for(i=0;i<40;i++) ac[i]=0;
     long long int mar = 0;//mar-memory address register(12 bits)
     long long int pc = 4, program_on = 1, Jump = 0;//pc-program counter
-    temp=pc;
     while(program_on)
     {
-        //fetch cycle
+        //FETCH PHASE AND DECODE PHASE
         if(!Jump)
-        {
-            //for(i=0;i<12;i++) {mar[i]=temp%2;temp=temp/2;} 
+        { 
             mar=pc;//passing location into mar.
             ir=0;
             for(i=0;i<40;i++) {mbr[i]=M[mar][i];}//taking 40 bit instruction from that location and storing into mbr.
@@ -144,7 +114,6 @@ void program()
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}//storing right instruction in ibr.
                 mar=0;//reset mar..
                 for(i=0;i<12;i++) {mar+=((mbr[8+i])*pow(2,11-i));}//storing left address in decimal in mar.
-                //pc++;
             }
             else
             {
@@ -164,9 +133,9 @@ void program()
             for(i=0;i<12;i++) {mar+=((ibr[8+i])*pow(2,11-i));}
             pc++;
         }
-        cout << ir << endl;
+        cout <<"IR code in decimal is: "<< ir << endl;
+
         //Execute phase
-        //cout<<"fetch cycle completed!!"<<endl<<"decode cycle completed!!"<<endl;
         switch(ir)
         {
             //LOAD M(mar).
@@ -177,9 +146,9 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;
+                    cout<<"AC is: "<<"-" << A <<endl;
                 break;
             //LOAD NEGATIVE MODULUS.    
             case 4:
@@ -192,9 +161,9 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;
+                    cout<<"AC is: "<<"-" << A <<endl;
                 break;
             //ADDITION
             case 5:
@@ -218,9 +187,9 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;
+                    cout<<"AC is: "<<"-" << A <<endl;
                 break;
             //SUBTRACTION
             case 6:
@@ -244,9 +213,9 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;
+                    cout<<"AC is: "<<"-" << A <<endl;
                 break;
             //JUMP TO RIGHT
             case 16:
@@ -267,9 +236,9 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}//decimal value of ac.
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;
+                    cout<<"AC is: "<<"-" << A <<endl;
                 break;
             //STOR
             case 33:
@@ -280,9 +249,9 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;                
+                    cout<<"AC is: "<<"-" << A <<endl;                
                 break;
             //HALT-To stop running.
             case 255:
@@ -291,24 +260,32 @@ void program()
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
                 if(ac[0] == 0) 
-                    cout<<A<<endl;
+                    cout<<"AC is: "<<A<<endl;
                 else 
-                    cout<<"-" << A <<endl;
+                    cout<<"AC is: "<<"-" << A <<endl;
                 break;
         }
         Jump=!Jump;
     }
     long long unsigned int AC=0;
     for(i=1;i<40;i++) {AC+=M[2][i]*pow(2,39-i);}//calculating ac value in decimal as stored in binary.
+    cout << endl;
     if(M[2][0] == 0) 
-        cout<<AC<<endl;
+        cout<<"C value is: "<<AC<<endl;
     else 
-        cout<<"-" << AC <<endl;
-    //cout<<M[2]<<endl;
+        cout<<"C value is: "<<"-" << AC <<endl;
 }
 
 int main()
 {
-    //memory_creation();
+    long long signed int a,b;
+    cout <<"Enter 'a' value" <<endl;
+    cin>>a;
+    int_to_bin(a,0);
+    cout <<"Enter 'b' value" <<endl;
+    cin>>b;
+    int_to_bin(b,1);
+    cout << "Memory Creation ---> Success" << endl;
+    cout << endl;
     program();
 }
