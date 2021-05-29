@@ -134,6 +134,7 @@ void program()
 {
     long long int ir=0,i,temp;
     int mbr[40], ac[40], ibr[20];
+    for(i=0;i<40;i++) ac[i]=0;
     long long int mar = 0;
     long long int pc = 4, program_on = 1, Jump = 0;
     temp=pc;
@@ -180,47 +181,77 @@ void program()
             case 1:
                 for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
                 cout<<"LOAD COMPLETE"<<endl;
+                long long int A;
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;
                 break;
             case 4:
                 if(M[mar][0] == 0)
                     {mbr[0] = 1; ac[0] = 1;}
+                else
+                     {mbr[0] = 0; ac[0] = 0;}
                 for(i=1;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
                 cout<<"LOAD NEGATIVE MOD COMPLETE"<<endl;
-
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;
                 break;
             case 5:
-                long long unsigned int MBR,AC;
+                long long signed int MBR,AC;
                 AC=0;
                 MBR=0;
-                for(i=0;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];}//ac[i]=mbr[i];}
                 for(i=1;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
-                if(mbr[0]!=0) MBR=-MBR; 
-                if(ac[0]!=0) AC=-AC;
+                if(mbr[0]==1) MBR=-MBR; 
+                if(ac[0]==1) AC=-AC;
                 AC=AC+MBR;
                 if(AC>=0)
                  for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
                 else
                 {
                     AC=-AC;
-                    for(i=1;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                    for(i=0;i<39;i++) {ac[39-i]=AC%2;AC=AC/2;}
                     ac[0]=1;
                 }
                 cout<<"ADDITION COMPLETED!!"<<endl;
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;
                 break;
             case 6:
                 MBR=0,AC=0;
-                for(i=1;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}
+                for(i=0;i<40;i++) {mbr[i]=M[mar][i];}//ac[i]=mbr[i];}
                 for(i=1;i<40;i++) {MBR+=mbr[i]*pow(2,39-i);AC+=ac[i]*pow(2,39-i);}
+                if(mbr[0]==1) MBR=-MBR; 
+                if(ac[0]==1) AC=-AC;
                 AC=AC-MBR;
+                cout <<"MBR IS "<<MBR<<endl;
+                cout << "Ac is "<<AC << endl;
                 if(AC>=0)
                     for(i=0;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
                 else
                 {
                     AC=-AC;
-                    for(i=1;i<40;i++) {ac[39-i]=AC%2;AC=AC/2;}
+                    for(i=0;i<39;i++) {ac[39-i]=AC%2;AC=AC/2;}
                     ac[0]=1;
                 }
                 cout<<"SUBTRACTION COMPLETED!!"<<endl;
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;
                 break;
             
             case 16:
@@ -238,24 +269,41 @@ void program()
                 }
                 for(i=0;i<40;i++) ac[i]=0;
                 cout<<"JUMP TO RIGHT "<<pc<<" COMPLETED!!"<<endl;
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;
                 break;
             case 33:
                 for(i=0;i<40;i++) {mbr[i]=0;}
                 for(i=0;i<40;i++) {mbr[i]=ac[i];}
                 for(i=0;i<40;i++) {M[mar][i]=mbr[i];}
                 cout<<"STORAGE DONE!!"<<endl;
-                
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;                
                 break;
             case 255:
                 program_on=0;
                 cout<<"HALT!!"<<endl;
+                A = 0;
+                for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}
+                if(ac[0] == 0) 
+                    cout<<A<<endl;
+                else 
+                    cout<<"-" << A <<endl;
                 break;
         }
         Jump=!Jump;
     }
     long long unsigned int AC=0;
-    for(i=0;i<40;i++) {AC+=M[2][i]*pow(2,39-i);}
-    if(AC>=0) 
+    for(i=1;i<40;i++) {AC+=M[2][i]*pow(2,39-i);}
+    if(M[2][0] == 0) 
         cout<<AC<<endl;
     else 
         cout<<"-" << AC <<endl;
