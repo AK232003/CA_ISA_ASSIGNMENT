@@ -2,7 +2,7 @@
 
 -------------------------------------------------------------------------------------
 
-**PROJECT DISCRIPTION **
+**PROJECT DESCRIPTION**
    
     Language used to design this project is C++
     The aim of this project is to create an IAS Computer which can execute a particular C program.
