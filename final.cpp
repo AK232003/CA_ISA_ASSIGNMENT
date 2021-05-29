@@ -138,7 +138,7 @@ void program()
             mar=pc;//passing location into mar.
             ir=0;
             for(i=0;i<40;i++) {mbr[i]=M[mar][i];}//taking 40 bit instruction from that location and storing into mbr.
-            for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}//calculatig ir for left opcode.
+            for(i=0;i<8;i++) {ir+=((mbr[i])*pow(2,7-i));}//calculating ir for left opcode.
             if(ir!=0)
             {
                 for(i=0;i<20;i++) {ibr[i]=mbr[20+i];}//storing right instruction in ibr.
@@ -153,7 +153,7 @@ void program()
                 mar=0;//reset mar
                 for(i=0;i<12;i++) {mar+=((mbr[28+i])*pow(2,11-i));}//storing right address in decimal in mar.
                 pc++;//incrementing pc.
-                Jump=1;//jumping to next instruction
+                Jump=1;//jumping to next instruction.
             }
         }
         else
@@ -186,7 +186,7 @@ void program()
                 if(M[mar][0] == 0)
                     {mbr[0] = 1; ac[0] = 1;}//for negative case.
                 else
-                     {mbr[0] = 0; ac[0] = 0;}//for positive or zero case.
+                    {mbr[0] = 0; ac[0] = 0;}//for positive or zero case.
                 for(i=1;i<40;i++) {mbr[i]=M[mar][i];ac[i]=mbr[i];}//storing M[mar] in mbr and mbr in ac.
                 cout<<"LOAD NEGATIVE MOD COMPLETE"<<endl;
                 A = 0;
