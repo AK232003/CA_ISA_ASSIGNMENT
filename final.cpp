@@ -262,7 +262,7 @@ void program()
                     for(i=0;i<12;i++) {mar+=((mbr[8+i])*pow(2,11-i));}//left address into mar.
                     Jump=0;
                 }
-                for(i=0;i<40;i++) ac[i]=0;//reset accumulator
+                for(i=0;i<40;i++) ac[i]=0;//reset accumulator.
                 cout<<"JUMP TO RIGHT "<<pc<<" COMPLETED!!"<<endl;
                 A = 0;
                 for(i=1;i<40;i++) {A+=ac[i]*pow(2,39-i);}//decimal value of ac.
