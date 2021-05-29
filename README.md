@@ -38,15 +38,25 @@
 ***MEMORY SPACE***
 
 M(0)    -       'a' value
+
 M(1)    -       'b' value
+
 M(2)    -       'c' value
+
 M(3)    -       'garbage' value to compute if(a==b)
+
 M(4)    -       LOAD M(0)           SUB M(1)
+
 M(5)    -       STOR M(3)           LOAD -|M(3)|
+
 M(6)    -       JUMP + M(8, 20:39)  LOAD M(0)
+
 M(7)    -       ADD M(1)            STOR M(2)
+
 M(8)    -       HALT                LOAD M(0)
+
 M(9)    -       SUB M(1)            STOR M(2)
+
 M(10)   -       --------            HALT
 
 -------------------------------------------------------------------------------------
