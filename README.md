@@ -31,7 +31,7 @@
 
 -------------------------------------------------------------------------------------
 
-Note : We are going to implement the C code as coded in "implementation.c" in the IAS Machine as our base code.
+**Note : We are going to implement the C code as coded in "implementation.c" in the IAS Machine as our base code.**
 
 -------------------------------------------------------------------------------------
 
