@@ -7,4 +7,5 @@ int main()
     cin>>a>>b;
     if(a==b) c=a+b;
     else c=a-b;
+    cout<<c<<endl;
 }
