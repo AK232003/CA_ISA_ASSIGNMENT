@@ -153,7 +153,7 @@ void program()
                 mar=0;//reset mar
                 for(i=0;i<12;i++) {mar+=((mbr[28+i])*pow(2,11-i));}//storing right address in decimal in mar.
                 pc++;//incrementing pc.
-                Jump=1;//jumping to next instruction.
+                Jump=1;//jumping to next instruction
             }
         }
         else
