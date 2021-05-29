@@ -25,6 +25,8 @@
         STEP 1: Compile the c++ code using "g++ IAS_Program.cpp", a new executable is generated in the current
                 repository.
         STEP 2: To run the executable, use "./a.out".
+        STEP 3: The program will then require 'a' & 'b' values which can be input by the user.
+                Press "ENTER" key to run the program. 
 
 -------------------------------------------------------------------------------------
 
