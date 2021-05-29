@@ -2,7 +2,8 @@
 
 -------------------------------------------------------------------------------------
 
-*** PROJECT DISCRIPTION ***
+**PROJECT DISCRIPTION **
+   
     Language used to design this project is C++
     The aim of this project is to create an IAS Computer which can execute a particular C program.
 
@@ -48,7 +49,8 @@ M(9)    -       SUB M(1)            STOR M(2)
 M(10)   -       --------            HALT
 
 -------------------------------------------------------------------------------------
-
+**Github link for the above project**: https://github.com/AK232003/CA_ISA_ASSIGNMENT.git
+-------------------------------------------------------------------------------------
 ***CONTRIBUTORS***
 IMT2020084 - ARYA KONDAWAR
 IMT2020554 - ANSHUL MADURWAR
